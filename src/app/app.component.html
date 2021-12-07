@@ -1,16 +1,18 @@
 <div class="container p-20">
-  <h1 class="p-20">DEVICES API FOR DIGITALPERSONA ACCESS MANAGEMENT </h1>
-  <mat-stepper #stepper>
-    <mat-step label="Scan your fingers">
+  <h1 class="p-20">DEVICES API FOR DIGITALPERSONA ACCESS MANAGEMENT</h1>
+  <mat-stepper linear #stepper>
+    <mat-step label="Scan your fingers" [completed]="step > 1">
       <div>
-        <app-scan-fingers></app-scan-fingers>
+        <app-scan-fingers
+          [(isReaderConnected)]="isFingeringDeviceConnected"
+          [(step)]="step"
+        ></app-scan-fingers>
       </div>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button [disabled]="step <= 1" matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step label="Capture your photo">
+    <mat-step label="Capture your photo" [completed]="step > 2">
       <div>
         <p>Capture image component placeholder</p>
       </div>
@@ -19,7 +21,7 @@
         <button mat-button matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step>
+    <mat-step [completed]="step > 3">
       <ng-template matStepLabel>Select image</ng-template>
       <p>List all images and user chooses one</p>
       <div>

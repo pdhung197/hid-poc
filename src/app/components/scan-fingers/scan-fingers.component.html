@@ -1,1 +1,37 @@
-<p>scan-fingers works!</p>
+<div
+  class="scanner__wrapper"
+  [ngStyle]="{
+    'border-color': !isReaderConnected
+      ? 'gray'
+      : scanStatus === 'Successful'
+      ? 'green'
+      : 'red'
+  }"
+>
+  <h2 class="scanner__status-title">Fingerprint scan status</h2>
+  <div class="scanner__status">
+    <h2
+      [ngClass]="{
+        'scanner__status--connect-request': true,
+        hidden: !isReaderConnected
+      }"
+      [ngStyle]="{ display: !isReaderConnected ? 'block' : 'none' }"
+    >
+      Please connect<br />fingerprint device
+    </h2>
+    <div
+      [ngClass]="{
+        'scanner__status--circle': true,
+        success: scanStatus === 'Successful',
+        failed: scanStatus === 'Failed'
+      }"
+    >
+      <h3 class="scanner__status--status">
+        {{ scanStatus ? "Scan " + scanStatus : "" }}
+      </h3>
+    </div>
+  </div>
+  <button class="scanner__reset" (click)="resetScanningStatus()">
+    Scan new finger
+  </button>
+</div>
