@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import {MatStepper} from '@angular/material/stepper';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +6,10 @@ import {MatStepper} from '@angular/material/stepper';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  step = 1;
-  isFingeringDeviceConnected = false;
+  public step = 1;
+  public isFingeringDeviceConnected = false;
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor() {}
 
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 }

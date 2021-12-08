@@ -6,9 +6,16 @@ import {
   SampleFormat,
 } from '@digitalpersona/devices';
 
-enum ScanStatus{
-  Successful= 'Successful',
-  Failed = 'Failed'
+enum ScanStatus {
+  Successful = 'successful',
+  Failed = 'failed',
+  Empty = 'empty',
+}
+
+enum StatusColor {
+  EMPTY = 'gray',
+  SUCCESS = 'green',
+  FAILED = 'red',
 }
 
 @Component({
@@ -16,73 +23,94 @@ enum ScanStatus{
   templateUrl: './scan-fingers.component.html',
   styleUrls: ['./scan-fingers.component.scss'],
 })
-
 export class ScanFingersComponent implements OnInit {
   private reader!: FingerprintReader;
 
-  @Input() isReaderConnected: boolean;
-  @Output() isReaderConnectedChange = new EventEmitter<boolean>();
+  @Input() public isReaderConnected: boolean;
+  @Output() public isReaderConnectedChange = new EventEmitter<boolean>();
 
-  @Input() step: number;
-  @Output() stepChange = new EventEmitter<number>();
+  @Input() public step: number;
+  @Output() public stepChange = new EventEmitter<number>();
 
-  scanStatus?: ScanStatus;
+  public scanStatus: ScanStatus;
+  public eScanStatus = ScanStatus;
 
   constructor() {
     this.isReaderConnected = false;
     this.step = 1;
-    this.scanStatus = undefined;
+    this.reader = new FingerprintReader();
+    this.scanStatus = ScanStatus.Empty;
   }
 
   ngOnInit(): void {
-    this.reader = new FingerprintReader();
+    this.handleFingerprintDeviceEvent();
+  }
+
+  public handleDeviceConnectionStatus = (isConnected: boolean) => {
+    this.isReaderConnectedChange.emit(isConnected);
+  };
+
+  public resetScanningStatus = () => {
+    console.log('Fire');
+    this.scanStatus = ScanStatus.Empty;
+  };
+
+  get scanStatusColor(): StatusColor {
+    if (!this.isReaderConnected) {
+      return StatusColor.EMPTY;
+    }
+
+    switch (this.scanStatus) {
+      case ScanStatus.Failed:
+        return StatusColor.FAILED;
+      case ScanStatus.Successful:
+        return StatusColor.SUCCESS;
+      default:
+        return StatusColor.EMPTY;
+    }
+  }
+
+  get scanStatusMessage(): string {
+    if (!this.isReaderConnected) {
+      return 'Please connect<br />fingerprint device';
+    }
+
+    switch (this.scanStatus) {
+      case ScanStatus.Empty:
+        return 'Please scan<br />your fingers';
+      case ScanStatus.Successful:
+        return 'Scan successful';
+      case ScanStatus.Failed:
+        return 'Scan failed';
+      default:
+        return '';
+    }
+  }
+
+  private handleFingerprintDeviceEvent = async () => {
     this.reader.on('DeviceConnected', () => {
-      this.handleDeviceConnectionStatusChange(true);
+      this.handleDeviceConnectionStatus(true);
     });
-    this.reader.on('DeviceDisconnected', (event) => {
-      this.handleDeviceConnectionStatusChange(false);
+
+    this.reader.on('DeviceDisconnected', () => {
+      this.resetScanningStatus();
+      this.handleDeviceConnectionStatus(false);
     });
+
     this.reader.on('QualityReported', (event: QualityReported) => {
       const { quality } = event;
       this.handleQualityReport(quality);
     });
-    this.reader.on('SamplesAcquired', async (event) => {
-      console.log({ event });
-      await this.reader.stopAcquisition();
-      this.reader
-        .startAcquisition(SampleFormat.Intermediate)
-        .then((eventStart) => {
-          console.log({ eventStart });
-        });
-    });
-    this.reader.onAcquisitionStarted = (event) => {
-      console.log({ event });
-    };
-    this.reader.onAcquisitionStopped = (eventStop) => {
-      console.log({ eventStop });
-    };
-    this.reader.startAcquisition(SampleFormat.Intermediate).then((value) => {
-      console.log({ value });
-    });
-  }
 
-  private handleDeviceConnectionStatusChange = (isConnected: boolean) => {
-    console.log({ isConnected });
-    this.isReaderConnectedChange.emit(isConnected);
+    this.reader.startAcquisition(SampleFormat.Intermediate);
   };
 
   private handleQualityReport = (quality: QualityCode) => {
-    console.log({quality});
     if (quality === QualityCode.Good) {
       this.scanStatus = ScanStatus.Successful;
       this.stepChange.emit(2);
     } else {
-      this.scanStatus = ScanStatus.Failed
+      this.scanStatus = ScanStatus.Failed;
     }
-  };
-
-  resetScanningStatus = () => {
-    this.scanStatus = undefined;
-    console.log({scanStatus: this.scanStatus});
   };
 }

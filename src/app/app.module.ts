@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MaterialExampleModule } from './../../material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CaptureImageComponent } from './components/capture-image/capture-image.component';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -23,7 +22,6 @@ import { ScanFingersComponent } from './components/scan-fingers/scan-fingers.com
     MatInputModule,
     MatButtonModule,
     MatStepperModule,
-    MaterialExampleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

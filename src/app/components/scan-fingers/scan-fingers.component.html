@@ -1,37 +1,34 @@
 <div
   class="scanner__wrapper"
   [ngStyle]="{
-    'border-color': !isReaderConnected
-      ? 'gray'
-      : scanStatus === 'Successful'
-      ? 'green'
-      : 'red'
+    'border-color': scanStatusColor
   }"
 >
   <h2 class="scanner__status-title">Fingerprint scan status</h2>
   <div class="scanner__status">
     <h2
       [ngClass]="{
-        'scanner__status--connect-request': true,
-        hidden: !isReaderConnected
+        'scanner__status--scan-status': true,
+        'not-empty':
+          isReaderConnected &&
+          (scanStatus === eScanStatus.Successful ||
+            scanStatus === eScanStatus.Failed)
       }"
-      [ngStyle]="{ display: !isReaderConnected ? 'block' : 'none' }"
-    >
-      Please connect<br />fingerprint device
-    </h2>
+      [innerHtml]="scanStatusMessage"
+    ></h2>
     <div
-      [ngClass]="{
-        'scanner__status--circle': true,
-        success: scanStatus === 'Successful',
-        failed: scanStatus === 'Failed'
-      }"
-    >
-      <h3 class="scanner__status--status">
-        {{ scanStatus ? "Scan " + scanStatus : "" }}
-      </h3>
-    </div>
+      [ngClass]="[
+        'scanner__status--circle',
+        scanStatus,
+        isReaderConnected ? 'connected' : ''
+      ]"
+    ></div>
   </div>
-  <button class="scanner__reset" (click)="resetScanningStatus()">
+  <button
+    [disabled]="scanStatus === eScanStatus.Empty"
+    class="scanner__reset"
+    (click)="resetScanningStatus()"
+  >
     Scan new finger
   </button>
 </div>

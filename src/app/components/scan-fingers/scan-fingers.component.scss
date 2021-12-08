@@ -14,19 +14,23 @@
   &__reset {
     margin-top: 20px;
     padding: 10px 20px;
-    border: 1px solid red;
-    background-color: #fff;
-    color: red;
-    border-radius: 0;
-    translate: 0.4s;
-    cursor: pointer;
     font-weight: 600;
     text-transform: uppercase;
+    border-radius: 0;
+    border: 1px solid;
 
-    &:hover {
-      background-color: red;
-      color: #fff;
+    &:not(&:disabled) {
+      border-color: red;
+      background-color: #fff;
+      color: red;
       translate: 0.4s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: red;
+        color: #fff;
+        translate: 0.4s;
+      }
     }
   }
 
@@ -34,7 +38,7 @@
     position: relative;
     text-align: center;
 
-    &--connect-request {
+    &--scan-status {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -44,11 +48,9 @@
       z-index: 1;
       translate: 0.4s;
 
-      .hidden {
-        opacity: 0;
-        visibility: hidden;
-        z-index: -1;
-        translate: 0.4s;
+      &.not-empty {
+        color: #fff;
+        text-transform: uppercase;
       }
     }
 
@@ -60,27 +62,17 @@
       border-radius: 50%;
       animation: blinker 1s linear infinite;
 
-      &.success {
-        background-color: green;
-        animation: none;
-      }
+      &.connected {
+        &.successful {
+          background-color: green;
+          animation: none;
+        }
 
-      &.failed {
-        background-color: red;
-        animation: none;
+        &.failed {
+          background-color: red;
+          animation: none;
+        }
       }
-    }
-
-    &--status {
-      font-size: 1.3rem;
-      text-transform: uppercase;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      word-spacing: 100vw;
-      font-weight: 500;
-      color: #fff;
     }
   }
 }
