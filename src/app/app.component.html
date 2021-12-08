@@ -1,11 +1,10 @@
 <div class="container p-20">
   <h1 class="p-20">DEVICES API FOR DIGITALPERSONA ACCESS MANAGEMENT</h1>
-  <mat-stepper linear #stepper>
-    <mat-step label="Scan your fingers" [completed]="step > 1">
+  <mat-stepper linear #stepper (selectionChange)="changeStep($event)">
+    <mat-step label="Scan your fingers">
       <div>
         <app-scan-fingers
           [(isReaderConnected)]="isFingeringDeviceConnected"
-          [(step)]="step"
           (updateSampleAcquired)="updateSampleAcquired($event)"
           class="app-scan-fingers"
         ></app-scan-fingers>
@@ -15,27 +14,37 @@
           mat-flat-button
           color="primary"
           mat-button
-          [disabled]="step <= 1"
           matStepperNext
         >
           Next
         </button>
       </div>
     </mat-step>
-    <mat-step label="Capture your photo" [completed]="step > 2">
+    <mat-step label="Capture your photo">
       <div>
-        <p>Capture image component placeholder</p>
+        <app-capture-photo
+          (captured)="capturedPhoto($event)"
+        ></app-capture-photo>
       </div>
       <div>
         <button mat-raised-button mat-button matStepperPrevious>Back</button>
-        <button mat-flat-button color="primary" mat-button matStepperNext>
+        <button
+          mat-flat-button
+          color="primary"
+          mat-button
+          matStepperNext
+          [disabled]="!stepModel.photo"
+        >
           Next
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="step > 3">
+    <mat-step>
       <ng-template matStepLabel>Select image</ng-template>
-      <p>List all images and user chooses one</p>
+      <app-image-selection
+        [isImageGenerating]="isImageGenerating"
+        (selectedImage)="stepper.next()"
+      ></app-image-selection>
       <div>
         <button mat-raised-button mat-button matStepperPrevious>Back</button>
         <button mat-flat-button color="primary" mat-button matStepperNext>

@@ -1,0 +1,12 @@
+<div class="capture-image-container">
+  <div><video #video id="video" width="920" height="480" autoplay></video></div>
+  <div>
+    <button color="primary" mat-raised-button (click)="capture()">
+      Snap Photo
+    </button>
+  </div>
+  <canvas #canvas id="canvas" width="640" height="480"></canvas>
+  <div *ngIf="photo" class="captured-photo">
+    <img src="{{photo}}" height="50" />
+  </div>
+</div>

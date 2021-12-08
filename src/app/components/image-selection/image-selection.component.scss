@@ -1,0 +1,20 @@
+.image-selection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 20px;
+  width: 920px;
+  align-items: center;
+  justify-items: center;
+
+  img {
+    width: 300px;
+    height: 188px;
+    cursor: pointer;
+  }
+}
+
+.analyzing {
+  width: 100%;
+  text-align: center;
+}

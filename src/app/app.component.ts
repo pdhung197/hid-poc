@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Base64UrlString } from '@digitalpersona/core';
 
-interface iStepData {
-  fingerData: Base64UrlString;
-  imageData: any;
+interface IStepModel {
+  fingerprint: Base64UrlString;
+  photo: any;
 }
 
 @Component({
@@ -12,20 +12,29 @@ interface iStepData {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public step = 1;
   public isFingeringDeviceConnected = false;
-  public stepData: iStepData;
+  public stepModel!: IStepModel;
+  public isImageGenerating = false;
 
   constructor() {
-    this.stepData = {
-      fingerData: '',
-      imageData: '',
-    };
+    this.stepModel = {
+      fingerprint: '',
+      photo: '',
+    }
+  }
+  public updateSampleAcquired = (data: Base64UrlString) => {
+    this.stepModel.fingerprint = data;
+  };
+
+  public changeStep(step: any): void {
+    this.isImageGenerating = step.selectedIndex === 2;
   }
 
-  public ngOnInit() {}
-
-  public updateSampleAcquired = (data: Base64UrlString) => {
-    this.stepData.fingerData = data;
-  };
+  public capturedPhoto(photo: Base64UrlString) {
+    this.stepModel.photo = photo;
+    console.log(
+      '🚀 ~ file: app.component.ts ~ line 25 ~ AppComponent ~ capturedPhoto ~ this.stepModel.',
+      this.stepModel
+    );
+  }
 }
