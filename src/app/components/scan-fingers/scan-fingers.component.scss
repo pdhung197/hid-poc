@@ -1,0 +1,78 @@
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.scanner {
+  &__wrapper {
+    padding: 15px;
+    border: 5px solid;
+    text-align: center;
+  }
+
+  &__reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 0;
+    border: 1px solid;
+
+    &:not(&:disabled) {
+      border-color: red;
+      background-color: #fff;
+      color: red;
+      translate: 0.4s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: red;
+        color: #fff;
+        translate: 0.4s;
+      }
+    }
+  }
+
+  &__status {
+    position: relative;
+    text-align: center;
+
+    &--scan-status {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      visibility: visible;
+      z-index: 1;
+      translate: 0.4s;
+
+      &.not-empty {
+        color: #fff;
+        text-transform: uppercase;
+      }
+    }
+
+    &--circle {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background-color: rgb(190, 190, 190);
+      border-radius: 50%;
+      animation: blinker 1s linear infinite;
+
+      &.connected {
+        &.successful {
+          background-color: green;
+          animation: none;
+        }
+
+        &.failed {
+          background-color: red;
+          animation: none;
+        }
+      }
+    }
+  }
+}

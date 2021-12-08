@@ -1,1 +1,26 @@
-<p>scan-fingers works!</p>
+<div
+  class="scanner__wrapper"
+  [ngStyle]="{
+    'border-color': scanStatusColor
+  }"
+>
+  <div class="scanner__status">
+    <h2
+      [ngClass]="{
+        'scanner__status--scan-status': true,
+        'not-empty':
+          isReaderConnected &&
+          (scanStatus === eScanStatus.Successful ||
+            scanStatus === eScanStatus.Failed)
+      }"
+      [innerHtml]="scanStatusMessage"
+    ></h2>
+    <div
+      [ngClass]="[
+        'scanner__status--circle',
+        scanStatus,
+        isReaderConnected ? 'connected' : ''
+      ]"
+    ></div>
+  </div>
+</div>

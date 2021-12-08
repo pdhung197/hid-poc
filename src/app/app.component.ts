@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Base64UrlString } from '@digitalpersona/core';
+
+interface iStepData {
+  fingerData: Base64UrlString;
+  imageData: any;
+}
 
 @Component({
   selector: 'app-root',
@@ -7,10 +12,20 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  public step = 1;
+  public isFingeringDeviceConnected = false;
+  public stepData: iStepData;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit() {
-
+  constructor() {
+    this.stepData = {
+      fingerData: '',
+      imageData: '',
+    };
   }
+
+  public ngOnInit() {}
+
+  public updateSampleAcquired = (data: Base64UrlString) => {
+    this.stepData.fingerData = data;
+  };
 }
