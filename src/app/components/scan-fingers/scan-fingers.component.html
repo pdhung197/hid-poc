@@ -4,7 +4,6 @@
     'border-color': scanStatusColor
   }"
 >
-  <h2 class="scanner__status-title">Fingerprint scan status</h2>
   <div class="scanner__status">
     <h2
       [ngClass]="{
@@ -24,11 +23,4 @@
       ]"
     ></div>
   </div>
-  <button
-    [disabled]="scanStatus === eScanStatus.Empty"
-    class="scanner__reset"
-    (click)="resetScanningStatus()"
-  >
-    Scan new finger
-  </button>
 </div>

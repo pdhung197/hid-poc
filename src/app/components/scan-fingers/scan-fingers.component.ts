@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Base64UrlString } from '@digitalpersona/core';
 import {
   FingerprintReader,
   QualityCode,
   QualityReported,
   SampleFormat,
+  SamplesAcquired,
 } from '@digitalpersona/devices';
 
 enum ScanStatus {
@@ -32,6 +34,8 @@ export class ScanFingersComponent implements OnInit {
   @Input() public step: number;
   @Output() public stepChange = new EventEmitter<number>();
 
+  @Output() public updateSampleAcquired = new EventEmitter<Base64UrlString>();
+
   public scanStatus: ScanStatus;
   public eScanStatus = ScanStatus;
 
@@ -51,8 +55,8 @@ export class ScanFingersComponent implements OnInit {
   };
 
   public resetScanningStatus = () => {
-    console.log('Fire');
     this.scanStatus = ScanStatus.Empty;
+    this.stepChange.emit(1);
   };
 
   get scanStatusColor(): StatusColor {
@@ -102,7 +106,19 @@ export class ScanFingersComponent implements OnInit {
       this.handleQualityReport(quality);
     });
 
-    this.reader.startAcquisition(SampleFormat.Intermediate);
+    this.reader.on('SamplesAcquired', this.manageSampleAcquired);
+
+    this.reader.startAcquisition(SampleFormat.Raw);
+  };
+
+  private manageSampleAcquired = (data: SamplesAcquired) => {
+    const { samples } = data;
+    if (!samples || !samples.length) {
+      return;
+    }
+
+    const { Data: rawData } = samples[0];
+    this.updateSampleAcquired.emit(rawData);
   };
 
   private handleQualityReport = (quality: QualityCode) => {
@@ -111,6 +127,7 @@ export class ScanFingersComponent implements OnInit {
       this.stepChange.emit(2);
     } else {
       this.scanStatus = ScanStatus.Failed;
+      this.stepChange.emit(1);
     }
   };
 }
