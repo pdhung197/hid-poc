@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Base64UrlString } from '@digitalpersona/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Base64, Base64UrlString, Base64String } from '@digitalpersona/core';
 import {
   FingerprintReader,
   QualityCode,
@@ -38,8 +39,9 @@ export class ScanFingersComponent implements OnInit {
 
   public scanStatus: ScanStatus;
   public eScanStatus = ScanStatus;
+  public fingerprintImgString: SafeUrl;
 
-  constructor() {
+  constructor(private domSanitizer: DomSanitizer) {
     this.isReaderConnected = false;
     this.step = 1;
     this.reader = new FingerprintReader();
@@ -76,12 +78,12 @@ export class ScanFingersComponent implements OnInit {
 
   get scanStatusMessage(): string {
     if (!this.isReaderConnected) {
-      return 'Please connect<br />fingerprint device';
+      return 'Please connect fingerprint device';
     }
 
     switch (this.scanStatus) {
       case ScanStatus.Empty:
-        return 'Please scan<br />your fingers';
+        return 'Please scan your fingers';
       case ScanStatus.Successful:
         return 'Scan successful';
       case ScanStatus.Failed:
@@ -108,17 +110,23 @@ export class ScanFingersComponent implements OnInit {
 
     this.reader.on('SamplesAcquired', this.manageSampleAcquired);
 
-    this.reader.startAcquisition(SampleFormat.Raw);
+    this.reader.startAcquisition(SampleFormat.PngImage);
   };
 
-  private manageSampleAcquired = (data: SamplesAcquired) => {
+  private manageSampleAcquired = async (data: SamplesAcquired) => {
     const { samples } = data;
+
     if (!samples || !samples.length) {
       return;
     }
+    this.updateSampleAcquired.emit(samples[0] as unknown as Base64UrlString);
+    const base64ImageData: Base64String = Base64.fromBase64Url(
+      samples[0] as unknown as Base64UrlString
+    );
 
-    const { Data: rawData } = samples[0];
-    this.updateSampleAcquired.emit(rawData);
+    this.fingerprintImgString = this.domSanitizer.bypassSecurityTrustUrl(
+      `data:image/png;base64, ${base64ImageData}`
+    );
   };
 
   private handleQualityReport = (quality: QualityCode) => {
