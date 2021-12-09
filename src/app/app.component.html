@@ -10,12 +10,7 @@
         ></app-scan-fingers>
       </div>
       <div>
-        <button
-          mat-flat-button
-          color="primary"
-          mat-button
-          matStepperNext
-        >
+        <button mat-flat-button color="primary" mat-button matStepperNext>
           Next
         </button>
       </div>
@@ -24,6 +19,7 @@
       <div>
         <app-capture-photo
           (captured)="capturedPhoto($event)"
+          class="app-capture-photo"
         ></app-capture-photo>
       </div>
       <div>
@@ -54,7 +50,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
+      <p class="step-done-title">You are now done.</p>
       <div>
         <button mat-raised-button mat-button matStepperPrevious>Back</button>
         <button
