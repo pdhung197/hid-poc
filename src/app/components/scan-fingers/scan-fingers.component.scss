@@ -39,18 +39,35 @@
     text-align: center;
 
     &--scan-status {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
       opacity: 1;
       visibility: visible;
       z-index: 1;
       translate: 0.4s;
+      margin: 0;
+      margin-top: 10px;
 
-      &.not-empty {
-        color: #fff;
-        text-transform: uppercase;
+      &.successful {
+        color: green;
+      }
+
+      &.failed {
+        color: red;
+      }
+    }
+
+    &--result {
+      height: auto;
+      width: 90%;
+      margin: 0 auto;
+      opacity: 0.4;
+      transition: 1s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        max-width: 100%;
+        object-fit: cover;
       }
     }
 
@@ -71,6 +88,22 @@
         &.failed {
           background-color: red;
           animation: none;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .scanner {
+    &__status {
+      &--result {
+        width: auto;
+        height: 300px;
+        display: block;
+
+        img {
+          max-height: 100%;
         }
       }
     }

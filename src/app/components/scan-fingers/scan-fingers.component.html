@@ -5,22 +5,24 @@
   }"
 >
   <div class="scanner__status">
-    <h2
-      [ngClass]="{
-        'scanner__status--scan-status': true,
-        'not-empty':
-          isReaderConnected &&
-          (scanStatus === eScanStatus.Successful ||
-            scanStatus === eScanStatus.Failed)
-      }"
-      [innerHtml]="scanStatusMessage"
-    ></h2>
     <div
       [ngClass]="[
-        'scanner__status--circle',
+        'scanner__status--result',
         scanStatus,
         isReaderConnected ? 'connected' : ''
       ]"
-    ></div>
+    >
+      <img
+        [src]="
+          fingerprintImgString
+            ? fingerprintImgString
+            : 'assets/images/fingerprint-svgrepo-com.svg'
+        "
+      />
+    </div>
+    <h2
+      [ngClass]="['scanner__status--scan-status', scanStatus]"
+      [innerHtml]="scanStatusMessage"
+    ></h2>
   </div>
 </div>
