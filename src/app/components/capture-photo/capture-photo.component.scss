@@ -1,17 +1,67 @@
-body {
-  background-color: #f0f0f0;
+.capture-photo {
+  &__container {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+    width: 100%;
+    position: relative;
+  }
+
+  &__capture {
+    margin: 10px auto;
+    padding: 0 !important;
+    border-radius: 50%;
+    min-width: unset;
+    transition: 0.3s;
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #888;
+
+    img {
+      height: 4em;
+    }
+
+    &:hover {
+      border-color: blue;
+      background-color: rgb(111, 245, 255);
+    }
+  }
+
+  &__camera {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__photo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 100%;
+    transition: 0.3s;
+    z-index: 10;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    &.small {
+      width: 25%;
+      max-height: 35%;
+      transition: 0.3s;
+
+      &:hover {
+        width: 100%;
+        max-height: 100%;
+        transition: 0.3s;
+      }
+    }
+  }
 }
-.capture-image-container {
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-#video {
-  background-color: #000000;
-}
+
 #canvas {
   display: none;
-}
-.captured-photo {
-  padding: 20px;
 }

@@ -1,12 +1,15 @@
-<div class="capture-image-container">
-  <div><video #video id="video" width="920" height="480" autoplay></video></div>
-  <div>
-    <button color="primary" mat-raised-button (click)="capture()">
-      Snap Photo
-    </button>
+<div class="capture-photo__container">
+  <div class="capture-photo__camera">
+    <div
+      *ngIf="photo"
+      [ngClass]="{ 'capture-photo__photo': true, small: isPhotoCaptured }"
+    >
+      <img src="{{ photo }}" />
+    </div>
+    <video #video id="video" autoplay></video>
   </div>
+  <button class="capture-photo__capture" mat-raised-button (click)="capture()">
+    <img src="assets/images/camera-icon.png" />
+  </button>
   <canvas #canvas id="canvas" width="640" height="480"></canvas>
-  <div *ngIf="photo" class="captured-photo">
-    <img src="{{photo}}" height="50" />
-  </div>
 </div>

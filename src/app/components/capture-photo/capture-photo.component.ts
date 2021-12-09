@@ -21,8 +21,11 @@ export class CapturePhotoComponent {
   public canvas: ElementRef;
 
   public photo: any;
+  public isPhotoCaptured: boolean;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) {
+    this.isPhotoCaptured = false;
+  }
 
   public ngAfterViewInit() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -34,6 +37,7 @@ export class CapturePhotoComponent {
   }
 
   public capture() {
+    this.isPhotoCaptured = false;
     this.canvas.nativeElement
       .getContext('2d')
       .drawImage(this.video.nativeElement, 0, 0, 640, 480);
@@ -46,5 +50,9 @@ export class CapturePhotoComponent {
         duration: 2000,
       }
     );
+
+    setTimeout(() => {
+      this.isPhotoCaptured = true;
+    }, 1000);
   }
 }
