@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-capture-photo',
@@ -23,7 +22,7 @@ export class CapturePhotoComponent {
   public photo: any;
   public isPhotoCaptured: boolean;
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor() {
     this.isPhotoCaptured = false;
   }
 
@@ -43,14 +42,6 @@ export class CapturePhotoComponent {
       .drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.photo = this.canvas.nativeElement.toDataURL('image/png');
     this.captured.emit(this.photo);
-    this.snackBar.open(
-      'Your photo has been captured. Click next button to go next step',
-      '',
-      {
-        duration: 2000,
-      }
-    );
-
     setTimeout(() => {
       this.isPhotoCaptured = true;
     }, 1000);
