@@ -10,7 +10,13 @@
         ></app-scan-fingers>
       </div>
       <div>
-        <button mat-flat-button color="primary" mat-button matStepperNext>
+        <button
+          mat-flat-button
+          color="primary"
+          mat-button
+          matStepperNext
+          [disabled]="!stepModel.fingerprint"
+        >
           Next
         </button>
       </div>
