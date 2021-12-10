@@ -1,19 +1,19 @@
-<div class="image-selection" *ngIf="timer$ | async; else analyzing">
-  <div class="images" (click)="selectImage()">
-    <img src="/assets/images/1.jpeg" />
-  </div>
-  <div class="images" (click)="selectImage()">
-    <img src="/assets/images/2.jpeg" />
-  </div>
-  <div class="images" (click)="selectImage()">
-    <img src="/assets/images/3.jpeg" />
-  </div>
-  <div class="images" (click)="selectImage()">
-    <img src="/assets/images/4.jpeg" />
-  </div>
-</div>
 <ng-template #analyzing>
   <div class="analyzing">
     <h2>We are analyzing your biometrics information. Please wait…</h2>
   </div>
 </ng-template>
+<div *ngIf="timer$ | async; else analyzing">
+  <h2 class="analyzing">{{ title }}</h2>
+  <div
+    [ngClass]="{ 'image-selection': true, selected: selectedImageIndex > -1 }"
+  >
+    <div
+      [ngClass]="{ images: true, selected: selectedImageIndex === i }"
+      (click)="selectImage(i)"
+      *ngFor="let image of fakeImages; let i = index"
+    >
+      <img src="/assets/images/{{ image.src }}" />
+    </div>
+  </div>
+</div>

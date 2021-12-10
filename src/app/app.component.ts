@@ -14,14 +14,15 @@ interface IStepModel {
 export class AppComponent {
   public isFingeringDeviceConnected = false;
   public stepModel!: IStepModel;
-  public isImageGenerating = false;
+  public isImageGenerating = true;
 
   constructor() {
     this.stepModel = {
       fingerprint: '',
       photo: '',
-    }
+    };
   }
+
   public updateSampleAcquired = (data: Base64UrlString) => {
     this.stepModel.fingerprint = data;
   };
@@ -37,4 +38,8 @@ export class AppComponent {
       this.stepModel
     );
   }
+
+  public selectImage = (data: any) => {
+    console.log('Emitted', data);
+  };
 }
