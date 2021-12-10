@@ -45,7 +45,7 @@
       <ng-template matStepLabel>Select image</ng-template>
       <app-image-selection
         [isImageGenerating]="isImageGenerating"
-        (selectedImage)="stepper.next()"
+        (selectedImage)="selectImage($event)"
       ></app-image-selection>
       <div>
         <button mat-raised-button mat-button matStepperPrevious>Back</button>
