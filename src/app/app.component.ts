@@ -4,6 +4,7 @@ import { Base64UrlString } from '@digitalpersona/core';
 interface IStepModel {
   fingerprint: Base64UrlString;
   photo: any;
+  selectedImage: string;
 }
 
 @Component({
@@ -20,6 +21,7 @@ export class AppComponent {
     this.stepModel = {
       fingerprint: '',
       photo: '',
+      selectedImage: ''
     };
   }
 
@@ -33,13 +35,9 @@ export class AppComponent {
 
   public capturedPhoto(photo: Base64UrlString) {
     this.stepModel.photo = photo;
-    console.log(
-      '🚀 ~ file: app.component.ts ~ line 25 ~ AppComponent ~ capturedPhoto ~ this.stepModel.',
-      this.stepModel
-    );
   }
 
   public selectImage = (data: any) => {
-    console.log('Emitted', data);
+    this.stepModel.selectedImage = data.src;
   };
 }

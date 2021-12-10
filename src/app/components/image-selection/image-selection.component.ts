@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, debounceTime, Observable } from 'rxjs';
 
-interface ImageSoure {
+interface ImageSource {
   src: string;
 }
 
-const fakeImages: ImageSoure[] = [
+const fakeImages: ImageSource[] = [
   {
     src: '1.jpeg',
   },
@@ -37,7 +37,7 @@ export class ImageSelectionComponent implements OnInit, OnChanges {
   @Input() public isImageGenerating: boolean;
 
   public timer$: Observable<boolean>;
-  public fakeImages: ImageSoure[];
+  public fakeImages: ImageSource[];
   public selectedImageIndex: number;
   private timerSubject = new BehaviorSubject(false);
 
@@ -48,7 +48,6 @@ export class ImageSelectionComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(): void {
-    console.log({ t: this.isImageGenerating });
     if (this.isImageGenerating) {
       this.timerSubject.next(true);
     } else {
