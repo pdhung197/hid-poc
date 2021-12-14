@@ -37,11 +37,14 @@ export class ImageSelectionComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.selectedImageIndex = -1;
+    this.images = [];
   }
 
   public ngOnChanges(): void {
     if (this.stepIndex === 2) {
       this.submitData();
+    } else {
+      this.images = [];
     }
   }
 
