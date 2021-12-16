@@ -48,6 +48,7 @@
       <app-image-selection
         (selectedImage)="selectImage($event)"
         [stepIndex]="step"
+        [fingerprint]="stepModel.fingerprint"
       ></app-image-selection>
       <div>
         <button mat-raised-button mat-button matStepperPrevious>Back</button>

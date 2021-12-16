@@ -26,6 +26,7 @@ export class ImageSelectionComponent implements OnInit, OnChanges {
   @Output() public selectedImage = new EventEmitter();
   @Input() public isImageGenerating: boolean;
   @Input() public stepIndex = 0;
+  @Input() public fingerprint: Base64String;
 
   public images: ImageInfo[];
   public selectedImageIndex: number;
@@ -61,7 +62,12 @@ export class ImageSelectionComponent implements OnInit, OnChanges {
 
   private submitData(): Subscription {
     return this.httpClient
-      .get<any>('https://poc-test-vesion.herokuapp.com/v1/users')
+      .post<any>(
+        'https://poc-test-vesion.herokuapp.com/api/v1/generate-images',
+        {
+          logo: this.fingerprint,
+        }
+      )
       .subscribe((imgs) => {
         this.images = imgs.map((image: ImageInfo) => ({
           ...image,
