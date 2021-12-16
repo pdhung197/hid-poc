@@ -42,7 +42,7 @@ export class CapturePhotoComponent {
       .getContext('2d')
       .drawImage(this.video.nativeElement, 0, 0, 640, 480);
     const photo = this.canvas.nativeElement.toDataURL('image/png');
-    this.captured.emit(photo);
+    this.captured.emit(photo.replace('data:image/png;base64,', ''));
     setTimeout(() => {
       this.isPhotoCaptured = true;
     }, 1000);
