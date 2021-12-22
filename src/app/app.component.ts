@@ -46,6 +46,6 @@ export class AppComponent {
   }
 
   public selectImage = (data: any) => {
-    this.stepModel.selectedImage = data.image64;
+    this.stepModel.selectedImage = data.marked_image_path;
   };
 }

@@ -13,8 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 interface ImageInfo {
   id: string | number;
-  image64: Base64String;
-  src: string;
+  marked_image_path: string;
 }
 
 @Component({
@@ -62,16 +61,11 @@ export class ImageSelectionComponent implements OnInit, OnChanges {
 
   private submitData(): Subscription {
     return this.httpClient
-      .post<any>('https://poc-version2.herokuapp.com/api/v1/generate-images', {
+      .post<any>('https://poc-version3.herokuapp.com/api/v1/generate-images', {
         logo: this.profilePhoto,
       })
       .subscribe((imgs) => {
-        this.images = imgs.map((image: ImageInfo) => ({
-          ...image,
-          src: this.domSanitizer.bypassSecurityTrustUrl(
-            `data:image/jpeg;base64, ${image.image64}`
-          ),
-        }));
+        this.images = imgs;
       });
   }
 }
